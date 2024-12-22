@@ -1,4 +1,4 @@
-```markdown
+
 # log_privilege_escalation_attempts.py
 
 A Python script that monitors and logs unauthorized attempts to escalate privileges via processes. This tool is essential for detecting potential security threats and malicious activity on a system.
