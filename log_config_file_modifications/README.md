@@ -1,4 +1,3 @@
-```markdown
 # log_config_file_modifications.py
 
 A Python script that detects and logs processes attempting to modify critical system configuration files. This tool is essential for monitoring unauthorized or accidental changes to sensitive system files.
