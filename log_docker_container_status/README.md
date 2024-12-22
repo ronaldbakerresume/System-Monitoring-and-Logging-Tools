@@ -1,4 +1,3 @@
-```markdown
 # log_docker_container_status.py
 
 A Python script that monitors and logs the statuses of Docker containers. This tool is useful for tracking container activity and ensuring their availability in real time.
