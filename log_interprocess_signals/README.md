@@ -1,4 +1,3 @@
-```markdown
 # log_interprocess_signals.py
 
 A Python script that tracks and logs inter-process communication (IPC) signals, such as `SIGINT`, `SIGTERM`, and optionally `SIGHUP`. This tool is useful for debugging and auditing IPC signals within a system.
