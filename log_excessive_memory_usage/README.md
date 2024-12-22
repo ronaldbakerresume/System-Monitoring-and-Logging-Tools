@@ -1,4 +1,4 @@
-```markdown
+
 # log_excessive_memory_usage.py
 
 A Python script that monitors and logs processes consuming excessive memory over time. This tool is useful for identifying memory-intensive applications that may be impacting system performance.
