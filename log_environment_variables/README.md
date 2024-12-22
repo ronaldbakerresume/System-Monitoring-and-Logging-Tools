@@ -1,4 +1,4 @@
-```markdown
+
 # log_environment_variables.py
 
 A Python script that captures and logs the environment variables of specific processes. This tool is useful for debugging, monitoring, and auditing processes with critical or sensitive configurations.
