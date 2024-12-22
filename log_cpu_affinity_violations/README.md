@@ -1,4 +1,3 @@
-```markdown
 # log_cpu_affinity_violations.py
 
 A Python script that monitors and logs CPU affinity violations of processes. This tool helps ensure processes adhere to their assigned CPU cores, which is critical for performance optimization and workload distribution.
