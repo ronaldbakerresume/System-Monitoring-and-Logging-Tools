@@ -1,4 +1,3 @@
-```markdown
 # monitor_network_traffic.py
 
 A Python script to monitor processes that generate significant network traffic. It logs details about processes that exceed predefined thresholds for sent and received data. This tool is useful for administrators and developers to detect unusual or high network activity.
