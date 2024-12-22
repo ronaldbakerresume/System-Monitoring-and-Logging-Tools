@@ -1,4 +1,3 @@
-```markdown
 # log_frequent_process_restarts.py
 
 A Python script that detects and logs processes that restart frequently within a specified time window. This tool is useful for identifying unstable or problematic applications that restart repeatedly.
