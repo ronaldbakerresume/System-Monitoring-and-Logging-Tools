@@ -1,4 +1,4 @@
-```markdown
+
 # log_low_cpu_usage_processes.py
 
 A Python script that monitors and logs processes with unusually low CPU usage over time. This tool helps identify stalled or idle processes that may be inefficiently utilizing system resources.
