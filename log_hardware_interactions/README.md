@@ -1,4 +1,3 @@
-```markdown
 # log_hardware_interactions.py
 
 A Python script that monitors and logs processes interacting with hardware devices, including USB and network interfaces. This tool is ideal for tracking hardware-related activities and network connections in real time.
