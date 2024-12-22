@@ -1,4 +1,4 @@
-```markdown
+
 # log_top_cpu_processes.py
 
 A Python script that continuously logs the top 10 CPU-consuming processes. This tool is useful for identifying resource-intensive applications and monitoring system performance.
