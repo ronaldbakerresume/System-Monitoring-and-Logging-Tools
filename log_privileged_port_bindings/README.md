@@ -1,4 +1,4 @@
-```markdown
+
 # log_privileged_port_bindings.py
 
 A Python script that monitors and logs processes attempting to bind to privileged ports (ports < 1024). This tool is valuable for security auditing and tracking potential unauthorized network activity.
