@@ -1,4 +1,4 @@
-```markdown
+
 # log_excessive_file_descriptors.py
 
 A Python script that monitors and logs processes with excessive open file descriptors. This tool is useful for identifying resource-intensive processes that may impact system performance or stability.
