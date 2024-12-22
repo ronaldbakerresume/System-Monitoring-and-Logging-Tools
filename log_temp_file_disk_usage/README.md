@@ -1,4 +1,4 @@
-```markdown
+
 # log_temp_file_disk_usage.py
 
 A Python script that monitors and logs disk space usage of processes writing to temporary files. This tool is useful for identifying resource-intensive processes utilizing temporary directories.
