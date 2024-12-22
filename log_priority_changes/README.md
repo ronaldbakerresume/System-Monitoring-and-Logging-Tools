@@ -1,4 +1,4 @@
-```markdown
+
 # log_priority_changes.py
 
 A Python script that tracks and logs scheduling priority changes for running processes. This tool is useful for monitoring process behavior and detecting unexpected priority adjustments that may affect system performance.
