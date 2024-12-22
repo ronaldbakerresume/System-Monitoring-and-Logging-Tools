@@ -1,4 +1,4 @@
-```markdown
+
 # monitor_unauthorized_processes.py
 
 A Python script that monitors the system for unauthorized processes and logs their details to a file. This tool is essential for system administrators and security personnel to detect and track processes that are not part of the predefined authorized list.
