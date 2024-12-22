@@ -1,4 +1,3 @@
-```markdown
 # log_critical_file_deletion.py
 
 A Python script that monitors and logs attempts to delete critical system files. This tool is essential for detecting unauthorized or accidental deletion of key system files that may compromise system integrity.
