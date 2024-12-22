@@ -1,4 +1,4 @@
-```markdown
+
 # log_unauthorized_execution.py
 
 A Python script that monitors and logs processes executing from unauthorized directories. This tool is helpful for detecting potentially malicious or unauthorized software execution on a system.
