@@ -1,4 +1,4 @@
-```markdown
+
 # organize_files_with_readme.sh
 
 A Bash script designed to organize files in the current directory by creating individual subdirectories for each file and automatically generating a corresponding `README.md` file for each.
