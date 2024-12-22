@@ -1,4 +1,4 @@
-```markdown
+
 # monitor_high_cpu_processes.py
 
 A Python script designed to monitor processes with high CPU usage and log their details to a file. This tool is useful for detecting and analyzing resource-intensive processes on a system.
