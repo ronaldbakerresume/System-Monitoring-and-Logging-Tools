@@ -1,4 +1,4 @@
-```markdown
+
 # log_stack_traces_high_resource_usage.py
 
 A Python script that captures and logs stack traces of processes consuming excessive resources (CPU or memory). This tool is ideal for diagnosing performance bottlenecks and identifying resource-intensive processes.
