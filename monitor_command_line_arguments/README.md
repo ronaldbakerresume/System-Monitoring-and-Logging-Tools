@@ -1,4 +1,4 @@
-```markdown
+
 # monitor_command_line_arguments.py
 
 A Python script that monitors command-line arguments of running processes and logs suspicious activity based on predefined patterns. This tool helps detect potential security threats, such as unauthorized actions or malicious processes.
