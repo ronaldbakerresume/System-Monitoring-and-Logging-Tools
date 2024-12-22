@@ -1,4 +1,3 @@
-```markdown
 # log_file_locking_processes.py
 
 A Python script that monitors and logs processes holding locks on specific files. This tool helps in identifying processes that are using critical or sensitive files, which may be useful for debugging or security auditing.
