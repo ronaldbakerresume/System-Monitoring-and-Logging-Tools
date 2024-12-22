@@ -1,4 +1,4 @@
-```markdown
+
 # log_running_processes.py
 
 A Python script that logs all currently running processes and their metadata (PID, name, and command) to a text file. This tool is useful for auditing, debugging, and monitoring system activity.
