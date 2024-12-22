@@ -1,4 +1,4 @@
-```markdown
+
 # detect_runaway_processes.py
 
 A Python script that detects and logs runaway processes exceeding a predefined runtime threshold. This tool is designed to identify processes that may be stuck, misbehaving, or consuming system resources for too long.
