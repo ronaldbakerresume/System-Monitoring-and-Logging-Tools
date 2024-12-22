@@ -1,4 +1,4 @@
-```markdown
+
 # detect_unauthorized_executables.py
 
 A Python script that detects and logs processes using unauthorized executables or scripts. This tool is useful for identifying malicious or suspicious activity on a system.
