@@ -1,4 +1,3 @@
-```markdown
 # log_gpu_resource_usage.py
 
 A Python script that monitors and logs processes consuming GPU resources. This tool is particularly useful for systems with NVIDIA GPUs to track GPU memory usage and identify resource-intensive applications.
