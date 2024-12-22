@@ -1,6 +1,4 @@
-Sure! Here's the `README.md` content:
 
-```markdown
 # monitor_virtual_memory_usage.py
 
 A Python script designed to monitor processes consuming significant virtual memory and log their details to a file. This tool is ideal for system administrators and developers who need to track memory-intensive processes in real-time.
