@@ -1,4 +1,3 @@
-```markdown
 # log_high_thread_count.py
 
 A Python script that monitors and logs processes with high thread counts. This tool helps identify applications that may be overusing threads, potentially leading to performance issues.
