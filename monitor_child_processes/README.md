@@ -1,4 +1,4 @@
-```markdown
+
 # monitor_child_processes.py
 
 A Python script that monitors child processes spawned by a specific parent process and logs their details. This tool is ideal for tracking subprocesses created by critical applications or services.
