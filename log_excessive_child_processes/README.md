@@ -1,4 +1,4 @@
-```markdown
+
 # log_excessive_child_processes.py
 
 A Python script that monitors and logs processes spawning excessive child processes. This tool is designed to detect potential process spawning loops or abuse, which can lead to system resource exhaustion.
