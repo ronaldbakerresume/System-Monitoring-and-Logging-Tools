@@ -1,4 +1,4 @@
-```markdown
+
 # monitor_critical_processes.py
 
 A Python script designed to monitor critical system processes and log any failures or terminations. It also logs when processes recover after a failure. This tool is ideal for ensuring the availability of essential services and processes.
