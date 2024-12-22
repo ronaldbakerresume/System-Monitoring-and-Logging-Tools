@@ -1,4 +1,3 @@
-```markdown
 # log_listening_processes.py
 
 A Python script that logs all processes listening on specific network ports. This tool is useful for auditing network activity and identifying processes bound to critical ports.
