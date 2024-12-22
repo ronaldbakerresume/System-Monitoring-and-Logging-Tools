@@ -1,4 +1,4 @@
-```markdown
+
 # log_shared_memory_processes.py
 
 A Python script that monitors processes using shared memory and logs their details. This tool is ideal for identifying resource-intensive applications and understanding shared memory usage across processes.
