@@ -1,4 +1,4 @@
-```markdown
+
 # log_critical_directory_access.py
 
 A Python script that monitors processes accessing critical directories (e.g., `/etc`, `/home`) and logs their details. This tool is useful for detecting unauthorized or unexpected access to sensitive system directories.
