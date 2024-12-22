@@ -1,4 +1,3 @@
-```markdown
 # log_kernel_module_access.py
 
 A Python script that monitors and logs processes accessing specific kernel modules or drivers. This tool is designed to detect unauthorized or unusual interactions with kernel-level resources, particularly on Linux systems.
