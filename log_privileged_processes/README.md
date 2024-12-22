@@ -1,4 +1,4 @@
-```markdown
+
 # log_privileged_processes.py
 
 A Python script that monitors and logs processes running with elevated privileges (root or administrator). This tool is useful for security auditing and tracking privileged system activity.
