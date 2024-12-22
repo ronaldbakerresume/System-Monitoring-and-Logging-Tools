@@ -1,4 +1,4 @@
-```markdown
+
 # log_process_count_changes.py
 
 A Python script that continuously monitors and logs changes in the total number of running processes. This tool helps track system activity and detect significant increases or decreases in process count.
