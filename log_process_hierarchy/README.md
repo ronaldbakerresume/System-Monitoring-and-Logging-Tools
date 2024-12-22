@@ -1,4 +1,4 @@
-```markdown
+
 # log_process_hierarchy.py
 
 A Python script that logs parent-child relationships for all active processes. This tool provides insight into the process hierarchy, helping to identify how processes are spawned and organized.
