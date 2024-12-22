@@ -1,4 +1,4 @@
-```markdown
+
 # monitor_file_access.py
 
 A Python script designed to monitor processes accessing specific files or directories and log their activities. This tool is particularly useful for detecting unauthorized or unexpected access to sensitive resources.
