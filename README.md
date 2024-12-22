@@ -1,4 +1,4 @@
-```markdown
+
 # System Monitoring and Logging Tools
 
 This repository contains a collection of Python scripts for monitoring, logging, and managing various system activities. Each script resides in its dedicated directory, with a detailed `README.md` file explaining its functionality, usage, and configuration.
