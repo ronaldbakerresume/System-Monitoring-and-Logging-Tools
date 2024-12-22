@@ -1,4 +1,4 @@
-```markdown
+
 # log_open_file_descriptors.py
 
 A Python script that detects and logs file descriptors opened by processes. This tool helps in monitoring resource usage and troubleshooting file-related issues in running applications.
