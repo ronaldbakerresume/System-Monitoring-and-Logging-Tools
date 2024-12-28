@@ -1,0 +1,4 @@
+Inter-Process Signal Log - 2024-12-27 19:29:47
+============================================================
+[2024-12-27 19:29:51] Received Signal: SIGINT (Number: 2)
+[2024-12-27 19:29:55] Received Signal: SIGINT (Number: 2)
