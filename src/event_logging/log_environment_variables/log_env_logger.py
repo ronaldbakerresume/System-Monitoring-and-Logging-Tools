@@ -1,23 +1,25 @@
 """
-Script: log_environment_variables.py
+Script: environment_logger.py
 Developer: Ronald Baker
-Purpose: Captures and logs the environment variables of specific processes.
+Purpose: Captures and returns the environment variables of specific processes as a string.
 Compatible with: Linux, Windows, and Mac OS
 """
 
 import psutil  # For process monitoring
-from datetime import datetime  # To timestamp the log file
+from datetime import datetime  # To timestamp the log entries
 
 # List of specific process names to monitor
 MONITORED_PROCESSES = ["nginx", "mysql", "python", "explorer.exe"]
 
-# Output file to save the log of environment variables
-log_file = "process_environment_variables_log.txt"
+def log_environment_variables():
+    """
+    Captures and returns the environment variables of monitored processes as a string.
 
-# Open the log file in append mode
-with open(log_file, "a") as file:
-    file.write(f"Process Environment Variables Log - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
-    file.write("=" * 60 + "\n")
+    :return: A string containing the log of environment variables.
+    """
+    log_entries = []
+    log_entries.append(f"Process Environment Variables Log - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    log_entries.append("=" * 60)
 
     try:
         # Iterate through all running processes
@@ -32,21 +34,22 @@ with open(log_file, "a") as file:
                     # Get the environment variables of the process
                     env_vars = process.environ()
 
-                    # Log the environment variables
+                    # Create a log entry
                     timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                    log_entry = f"[{timestamp}] Process: PID {pid}, Name: {name}\n"
-                    file.write(log_entry)
+                    log_entry = f"[{timestamp}] Process: PID {pid}, Name: {name}"
+                    log_entries.append(log_entry)
+
                     for key, value in env_vars.items():
-                        file.write(f"  {key}={value}\n")
-                    file.write("\n")
-                    print(f"Logged environment variables for PID {pid}, Name: {name}")
+                        log_entries.append(f"  {key}={value}")
+
+                    log_entries.append("")  # Blank line for separation
 
             except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
                 # Skip processes that are inaccessible or have terminated
                 continue
 
-        print(f"Environment variables log saved to {log_file}")
-
     except Exception as e:
-        print(f"An error occurred: {e}")
+        log_entries.append(f"An error occurred: {e}")
+
+    return "\n".join(log_entries)
 
