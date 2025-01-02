@@ -8,13 +8,15 @@ Compatible with: Linux, Windows, and Mac OS
 import psutil  # For process and connection monitoring
 from datetime import datetime  # To timestamp the log file
 
-# Output file to save the log of privileged port bindings
-log_file = "privileged_port_bindings_log.txt"
+def log_privileged_port_bindings():
+    """
+    Monitors and logs processes attempting to bind to privileged ports (<1024) and returns the log as a string.
 
-# Open the log file in append mode
-with open(log_file, "a") as file:
-    file.write(f"Privileged Port Bindings Log - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
-    file.write("=" * 60 + "\n")
+    :return: A string containing the log of privileged port bindings.
+    """
+    log_entries = []
+    log_entries.append(f"Privileged Port Bindings Log - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    log_entries.append("=" * 60)
 
     try:
         # Iterate through all network connections
@@ -37,15 +39,14 @@ with open(log_file, "a") as file:
                         log_entry = (f"[{timestamp}] Privileged Port Binding - PID: {pid}, Name: {name}, "
                                      f"Local Address: {local_address}, Remote Address: {remote_address}, "
                                      f"Status: {status}\n")
-                        file.write(log_entry)
-                        print(log_entry.strip())  # Print to the console
+                        log_entries.append(log_entry)
 
             except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
                 # Skip processes that are inaccessible or have terminated
                 continue
 
-        print(f"Privileged port bindings log saved to {log_file}")
+        return "\n".join(log_entries)
 
     except Exception as e:
-        print(f"An error occurred: {e}")
+        return f"An error occurred: {e}"
 

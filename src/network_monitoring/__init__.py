@@ -1,1 +1,1 @@
-# Initialization file for the network_monitoring module
+# Initialization file for the monitor_network_traffic module

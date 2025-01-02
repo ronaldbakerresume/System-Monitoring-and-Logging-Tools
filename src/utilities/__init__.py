@@ -1,1 +1,1 @@
-# Initialization file for the utilities module
+# Initialization file for the list_python_files module
