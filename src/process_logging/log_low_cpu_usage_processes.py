@@ -1,49 +1,60 @@
-"""
-Script: log_low_cpu_usage_processes.py
-Developer: Ronald Baker
-Purpose: Monitors and logs processes with unusually low CPU usage over time to detect potential stalling or idle behavior.
-Compatible with: Linux, Windows, and Mac OS
-"""
-
 import psutil  # For process monitoring
 from datetime import datetime  # To timestamp the log file
 import time  # For periodic polling
 
-# Threshold for unusually low CPU usage (percentage)
-LOW_CPU_USAGE_THRESHOLD = 1.0  # Example: Less than 1% CPU usage over the monitoring period
+def log_low_cpu_usage_processes(duration_seconds=30, polling_interval=5, log_file="low_cpu_usage_log.txt"):
+    """
+    Monitors and logs processes with unusually low CPU usage over a specified time period.
 
-# Output file to save the log of low CPU usage processes
-log_file = "low_cpu_usage_log.txt"
+    Args:
+        duration_seconds (int): Total time to monitor in seconds (default is 30 seconds).
+        polling_interval (int): Time between polls in seconds (default is 5 seconds).
+        log_file (str): Path to the log file (default is "low_cpu_usage_log.txt").
 
-# Open the log file in append mode
-with open(log_file, "a") as file:
-    file.write(f"Low CPU Usage Log - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
-    file.write("=" * 60 + "\n")
+    Returns:
+        str: String of log entries for testing and review purposes.
+    """
+    start_time = time.time()
+    log_output = []
 
-    try:
-        while True:
-            # Iterate through all running processes
-            for process in psutil.process_iter(attrs=["pid", "name", "cpu_percent"]):
-                try:
-                    # Get process details
-                    pid = process.info["pid"]
-                    name = process.info["name"]
-                    cpu_usage = process.info["cpu_percent"]
+    with open(log_file, "a") as file:
+        file.write(f"Low CPU Usage Log - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+        file.write("=" * 60 + "\n")
 
-                    # Check if the CPU usage is below the threshold
-                    if cpu_usage < LOW_CPU_USAGE_THRESHOLD:
-                        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                        log_entry = (f"[{timestamp}] Low CPU Usage Detected - "
-                                     f"PID: {pid}, Name: {name}, CPU Usage: {cpu_usage:.2f}%\n")
-                        file.write(log_entry)
-                        print(log_entry.strip())  # Print to the console
+        try:
+            while time.time() - start_time < duration_seconds:
+                # Iterate through all running processes
+                for process in psutil.process_iter(attrs=["pid", "name", "cpu_percent"]):
+                    try:
+                        # Get process details
+                        pid = process.info["pid"]
+                        name = process.info["name"]
+                        cpu_usage = process.info["cpu_percent"]
 
-                except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
-                    # Skip processes that are inaccessible or have terminated
-                    continue
+                        # Check if the CPU usage is below the threshold
+                        if cpu_usage < LOW_CPU_USAGE_THRESHOLD:
+                            timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                            log_entry = (f"[{timestamp}] Low CPU Usage Detected - "
+                                         f"PID: {pid}, Name: {name}, CPU Usage: {cpu_usage:.2f}%\n")
+                            file.write(log_entry)
+                            log_output.append(log_entry.strip())
+                            print(log_entry.strip())  # Print to the console
 
-            time.sleep(5)  # Poll every 5 seconds
+                    except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+                        # Skip processes that are inaccessible or have terminated
+                        continue
 
-    except KeyboardInterrupt:
-        print("Monitoring stopped. Low CPU usage log saved.")
+                time.sleep(polling_interval)
+
+        except Exception as e:
+            error_msg = f"An error occurred: {e}\n"
+            print(error_msg)
+            file.write(error_msg)
+
+    return "\n".join(log_output)
+
+
+if __name__ == "__main__":
+    LOW_CPU_USAGE_THRESHOLD = 1.0  # Example threshold: Less than 1% CPU usage
+    log_low_cpu_usage_processes(duration_seconds=30, polling_interval=5)
 

@@ -1,50 +1,64 @@
-"""
-Script: log_hardware_interactions.py
-Developer: Ronald Baker
-Purpose: Monitors and logs processes interacting with hardware devices like USB and network interfaces.
-Compatible with: Linux, Windows, and Mac OS
-"""
-
 import psutil  # For process and connection monitoring
 from datetime import datetime  # To timestamp the log file
+import time  # For timed polling
 
-# Output file to save the log of hardware interactions
-log_file = "hardware_interactions_log.txt"
+def log_hardware_interactions(duration_seconds=30, log_file="hardware_interactions_log.txt"):
+    """
+    Monitors and logs processes interacting with hardware devices like USB and network interfaces.
 
-# Open the log file in append mode
-with open(log_file, "a") as file:
-    file.write(f"Hardware Interactions Log - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
-    file.write("=" * 60 + "\n")
+    Args:
+        duration_seconds (int): Duration to monitor in seconds (default is 30).
+        log_file (str): Path to the log file (default is "hardware_interactions_log.txt").
 
-    try:
-        # Iterate through all network connections
-        for conn in psutil.net_connections(kind="inet"):
-            try:
-                # Get connection details
-                pid = conn.pid
-                local_address = f"{conn.laddr.ip}:{conn.laddr.port}" if conn.laddr else "N/A"
-                remote_address = f"{conn.raddr.ip}:{conn.raddr.port}" if conn.raddr else "N/A"
-                status = conn.status
+    Returns:
+        str: String of log entries for testing purposes.
+    """
+    start_time = time.time()
+    log_output = []
 
-                # Get the process associated with the connection
-                if pid:
-                    process = psutil.Process(pid)
-                    name = process.name()
+    with open(log_file, "a") as file:
+        file.write(f"Hardware Interactions Log - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+        file.write("=" * 60 + "\n")
 
-                    # Log the connection and process details
-                    timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                    log_entry = (f"[{timestamp}] Process: PID {pid}, Name: {name}, "
-                                 f"Local Address: {local_address}, Remote Address: {remote_address}, "
-                                 f"Status: {status}\n")
-                    file.write(log_entry)
-                    print(log_entry.strip())  # Print to the console
+        try:
+            while time.time() - start_time < duration_seconds:
+                # Iterate through all network connections
+                for conn in psutil.net_connections(kind="inet"):
+                    try:
+                        # Get connection details
+                        pid = conn.pid
+                        local_address = f"{conn.laddr.ip}:{conn.laddr.port}" if conn.laddr else "N/A"
+                        remote_address = f"{conn.raddr.ip}:{conn.raddr.port}" if conn.raddr else "N/A"
+                        status = conn.status
 
-            except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
-                # Skip processes that are inaccessible or have terminated
-                continue
+                        # Get the process associated with the connection
+                        if pid:
+                            process = psutil.Process(pid)
+                            name = process.name()
 
-        print(f"Hardware interaction log saved to {log_file}")
+                            # Log the connection and process details
+                            timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                            log_entry = (f"[{timestamp}] Process: PID {pid}, Name: {name}, "
+                                         f"Local Address: {local_address}, Remote Address: {remote_address}, "
+                                         f"Status: {status}\n")
+                            file.write(log_entry)
+                            log_output.append(log_entry.strip())
+                            print(log_entry.strip())  # Print to the console
 
-    except Exception as e:
-        print(f"An error occurred: {e}")
+                    except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+                        # Skip processes that are inaccessible or have terminated
+                        continue
+
+                time.sleep(5)  # Poll every 5 seconds
+
+        except Exception as e:
+            error_msg = f"An error occurred: {e}\n"
+            print(error_msg)
+            file.write(error_msg)
+
+    return "\n".join(log_output)
+
+
+if __name__ == "__main__":
+    log_hardware_interactions()
 

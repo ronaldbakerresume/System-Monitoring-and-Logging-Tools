@@ -1,22 +1,21 @@
-"""
-Script: log_running_processes.py
-Developer: Ronald Baker
-Purpose: Logs all currently running processes and their metadata (PID, name, command) to a text file.
-Compatible with: Linux, Windows, and Mac OS
-"""
+import os
+import subprocess
+from datetime import datetime
 
-import os  # For cross-platform compatibility
-import subprocess  # To execute system commands
-from datetime import datetime  # To timestamp the log file
 
-# Output file to save the process metadata
-log_file = "running_processes_log.txt"
+def log_running_processes(log_file="running_processes_log.txt"):
+    """
+    Logs all currently running processes and their metadata (PID, name, command).
 
-# Open the log file in write mode
-with open(log_file, "w") as file:
-    # Add a header with a timestamp
-    file.write(f"Process Log - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
-    file.write("=" * 50 + "\n")
+    Args:
+        log_file (str): Path to the log file (default is "running_processes_log.txt").
+
+    Returns:
+        str: Text output of all running processes.
+    """
+    log_output = []
+    header = f"Process Log - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n" + "=" * 50 + "\n"
+    log_output.append(header)
 
     # Determine the command to list processes based on the operating system
     if os.name == "nt":  # For Windows
@@ -27,8 +26,19 @@ with open(log_file, "w") as file:
     # Execute the command and capture the output
     result = subprocess.run(command, stdout=subprocess.PIPE, text=True)
 
-    # Write the command output to the log file
-    file.write(result.stdout)
+    # Append the command output to the log
+    log_output.append(result.stdout)
 
-print(f"Process metadata logged to {log_file}")
+    # Save the log to a file
+    with open(log_file, "w") as file:
+        file.write("\n".join(log_output))
+
+    # Return the log as a text string
+    return "\n".join(log_output)
+
+
+if __name__ == "__main__":
+    output = log_running_processes()
+    print(output)  # Print the log for immediate feedback
+
 

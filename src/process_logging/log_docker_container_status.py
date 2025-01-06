@@ -1,54 +1,51 @@
 """
 Script: log_docker_container_status.py
 Developer: Ronald Baker
-Purpose: Monitors Docker containerized processes and logs their statuses.
+Purpose: Monitors Docker containerized processes and returns their statuses as a formatted string.
 Compatible with: Linux, Windows, and Mac OS (requires Docker).
 """
 
 import subprocess  # For running Docker commands
-from datetime import datetime  # To timestamp the log file
-import time  # For periodic polling
+from datetime import datetime  # To timestamp the log entries
 
-# Output file to save the log of Docker container statuses
-log_file = "docker_container_status_log.txt"
+def log_docker_container_status():
+    """
+    Fetches the status of all running Docker containers and returns a formatted string log.
 
-# Open the log file in append mode
-with open(log_file, "a") as file:
-    file.write(f"Docker Container Status Log - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
-    file.write("=" * 60 + "\n")
+    Returns:
+        str: Formatted string containing details of Docker container statuses.
+    """
+    log_entries = []
+    timestamp_header = f"Docker Container Status Log - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+    log_entries.append(timestamp_header)
+    log_entries.append("=" * 60)
 
     try:
-        while True:
-            # Run the Docker PS command to get container statuses
-            try:
-                result = subprocess.run(
-                    ["docker", "ps", "--format", "{{.ID}},{{.Names}},{{.Status}}"],
-                    stdout=subprocess.PIPE,
-                    text=True,
-                )
-                output = result.stdout.strip()
+        # Run the Docker PS command to get container statuses
+        result = subprocess.run(
+            ["docker", "ps", "--format", "{{.ID}},{{.Names}},{{.Status}}"],
+            stdout=subprocess.PIPE,
+            text=True,
+            check=True
+        )
+        output = result.stdout.strip()
 
-                # Parse the output and log the container statuses
-                if output:
-                    for line in output.splitlines():
-                        container_id, container_name, status = line.split(",")
-                        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                        log_entry = (f"[{timestamp}] Docker Container - ID: {container_id}, "
-                                     f"Name: {container_name}, Status: {status}\n")
-                        file.write(log_entry)
-                        print(log_entry.strip())  # Print to the console
+        # Parse the output and log the container statuses
+        if output:
+            for line in output.splitlines():
+                container_id, container_name, status = line.split(",")
+                timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                log_entry = (f"[{timestamp}] Docker Container - ID: {container_id}, "
+                             f"Name: {container_name}, Status: {status}")
+                log_entries.append(log_entry)
 
-            except FileNotFoundError:
-                print("Error: Docker command not found. Ensure Docker is installed and running.")
-                break
+        else:
+            log_entries.append(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] No running Docker containers detected.")
 
-            except Exception as e:
-                print(f"An error occurred while fetching Docker statuses: {e}")
-                break
+    except FileNotFoundError:
+        log_entries.append("Error: Docker command not found. Ensure Docker is installed and running.")
 
-            # Poll every 5 seconds
-            time.sleep(5)
+    except subprocess.CalledProcessError as e:
+        log_entries.append(f"An error occurred while fetching Docker statuses: {e}")
 
-    except KeyboardInterrupt:
-        print("Monitoring stopped. Docker container status log saved.")
-
+    return "\n".join(log_entries)

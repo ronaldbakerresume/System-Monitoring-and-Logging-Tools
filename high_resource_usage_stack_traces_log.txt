@@ -1,0 +1,6 @@
+High Resource Usage Stack Trace Log - 2025-01-06 13:39:05
+============================================================
+[2025-01-06 13:39:05] High Resource Usage Process - PID: 1234, Name: test_process_1, CPU: 60.00%, Memory: 600.00 MB
+Stack Trace for PID 1234:
+(Not implemented in Python for running processes)
+

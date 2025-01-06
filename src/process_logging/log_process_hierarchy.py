@@ -1,20 +1,20 @@
-"""
-Script: log_process_hierarchy.py
-Developer: Ronald Baker
-Purpose: Logs parent-child relationships for all active processes.
-Compatible with: Linux, Windows, and Mac OS
-"""
-
 import psutil  # For system process monitoring
 from datetime import datetime  # To timestamp the log file
 
-# Output file to save the log of process hierarchy
-log_file = "process_hierarchy_log.txt"
 
-# Open the log file in write mode
-with open(log_file, "w") as file:
-    file.write(f"Process Hierarchy Log - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
-    file.write("=" * 60 + "\n")
+def log_process_hierarchy(log_file="process_hierarchy_log.txt"):
+    """
+    Logs parent-child relationships for all active processes.
+
+    Args:
+        log_file (str): Path to the log file (default is "process_hierarchy_log.txt").
+
+    Returns:
+        str: Text output of the process hierarchy log.
+    """
+    log_output = []
+    header = f"Process Hierarchy Log - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n" + "=" * 60 + "\n"
+    log_output.append(header)
 
     try:
         # Iterate through all running processes
@@ -34,16 +34,26 @@ with open(log_file, "w") as file:
 
                 # Log the process hierarchy
                 log_entry = (f"Process: PID {pid}, Name: {name} --> "
-                             f"Parent: PID {ppid}, Name: {parent_name}\n")
-                file.write(log_entry)
-                print(log_entry.strip())  # Print to the console
+                             f"Parent: PID {ppid}, Name: {parent_name}")
+                log_output.append(log_entry)
 
             except (psutil.NoSuchProcess, psutil.AccessDenied):
                 # Skip processes that are inaccessible or have terminated
                 continue
 
-        print(f"Process hierarchy logged to {log_file}")
-
     except Exception as e:
-        print(f"An error occurred: {e}")
+        error_msg = f"An error occurred: {e}"
+        log_output.append(error_msg)
+
+    # Save the log to a file
+    with open(log_file, "w") as file:
+        file.write("\n".join(log_output))
+
+    # Return the log as a text string
+    return "\n".join(log_output)
+
+
+if __name__ == "__main__":
+    output = log_process_hierarchy()
+    print(output)  # Print the log for immediate feedback
 

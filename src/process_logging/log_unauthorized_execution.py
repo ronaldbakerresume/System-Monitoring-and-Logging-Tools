@@ -1,48 +1,54 @@
-"""
-Script: log_unauthorized_execution.py
-Developer: Ronald Baker
-Purpose: Monitors and logs processes executing from unauthorized directories.
-Compatible with: Linux, Windows, and Mac OS
-"""
+import psutil
+from datetime import datetime
 
-import psutil  # For process monitoring
-from datetime import datetime  # To timestamp the log file
 
-# List of authorized directories for execution
-AUTHORIZED_DIRECTORIES = ["/usr/bin", "/bin", "C:\\Windows\\System32", "/usr/sbin"]
+def log_unauthorized_execution(
+    authorized_directories=None, poll_interval=5, log_file="unauthorized_execution_log.txt"
+):
+    """
+    Monitors and logs processes executing from unauthorized directories.
 
-# Output file to save the log of unauthorized executions
-log_file = "unauthorized_execution_log.txt"
+    Args:
+        authorized_directories (list): List of directories considered authorized.
+        poll_interval (int): Time in seconds between monitoring cycles.
+        log_file (str): Path to the log file.
 
-# Open the log file in append mode
-with open(log_file, "a") as file:
-    file.write(f"Unauthorized Execution Log - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
-    file.write("=" * 60 + "\n")
+    Returns:
+        str: Formatted string output of unauthorized execution logs.
+    """
+    if authorized_directories is None:
+        authorized_directories = ["/usr/bin", "/bin", "C:\\Windows\\System32", "/usr/sbin"]
+
+    log_output = []
+    header = f"Unauthorized Execution Log - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n" + "=" * 60 + "\n"
+    log_output.append(header)
 
     try:
-        while True:
-            # Iterate through all running processes
-            for process in psutil.process_iter(attrs=["pid", "name", "exe"]):
-                try:
-                    # Get process details
-                    pid = process.info["pid"]
-                    name = process.info["name"]
-                    exe_path = process.info.get("exe", "N/A")
+        for process in psutil.process_iter(attrs=["pid", "name", "exe"]):
+            try:
+                pid = process.info["pid"]
+                name = process.info["name"]
+                exe_path = process.info.get("exe", "N/A")
 
-                    # Check if the executable path is outside authorized directories
-                    if exe_path != "N/A" and not any(exe_path.startswith(auth_dir) for auth_dir in AUTHORIZED_DIRECTORIES):
-                        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                        log_entry = (f"[{timestamp}] Unauthorized Execution Detected - "
-                                     f"PID: {pid}, Name: {name}, Executable Path: {exe_path}\n")
-                        file.write(log_entry)
-                        print(log_entry.strip())  # Print to the console
+                if exe_path != "N/A" and not any(exe_path.startswith(auth_dir) for auth_dir in authorized_directories):
+                    timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                    log_entry = (f"[{timestamp}] Unauthorized Execution Detected - "
+                                 f"PID: {pid}, Name: {name}, Executable Path: {exe_path}\n")
+                    log_output.append(log_entry)
 
-                except (psutil.NoSuchProcess, psutil.AccessDenied):
-                    # Skip processes that are inaccessible or have terminated
-                    continue
+            except (psutil.NoSuchProcess, psutil.AccessDenied):
+                continue
 
-            time.sleep(5)  # Poll every 5 seconds
+    except Exception as e:
+        log_output.append(f"An error occurred: {e}\n")
 
-    except KeyboardInterrupt:
-        print("Monitoring stopped. Unauthorized execution log saved.")
+    # Write to log file
+    with open(log_file, "w") as file:
+        file.write("".join(log_output))
 
+    return "".join(log_output)
+
+
+if __name__ == "__main__":
+    output = log_unauthorized_execution()
+    print(output)
