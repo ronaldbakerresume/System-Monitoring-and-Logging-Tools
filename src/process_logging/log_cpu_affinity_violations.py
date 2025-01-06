@@ -1,12 +1,12 @@
 """
 Script: log_cpu_affinity_violations.py
 Developer: Ronald Baker
-Purpose: Tracks CPU affinity of processes and logs violations of assigned CPU cores.
+Purpose: Tracks CPU affinity of processes and returns violations of assigned CPU cores as a formatted string.
 Compatible with: Linux, Windows, and Mac OS
 """
 
 import psutil  # For process monitoring
-from datetime import datetime  # To timestamp the log file
+from datetime import datetime  # To timestamp the log entries
 
 # Define a dictionary of processes with their expected CPU affinity
 EXPECTED_AFFINITY = {
@@ -14,13 +14,17 @@ EXPECTED_AFFINITY = {
     "example_process_2": [2, 3]
 }
 
-# Output file to save the log of CPU affinity violations
-log_file = "cpu_affinity_violations_log.txt"
+def log_cpu_affinity_violations():
+    """
+    Checks the CPU affinity of processes and returns a log of violations as a formatted string.
 
-# Open the log file in append mode
-with open(log_file, "a") as file:
-    file.write(f"CPU Affinity Violations Log - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
-    file.write("=" * 60 + "\n")
+    Returns:
+        str: Formatted string containing details of CPU affinity violations.
+    """
+    log_entries = []
+    timestamp_header = f"CPU Affinity Violations Log - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+    log_entries.append(timestamp_header)
+    log_entries.append("=" * 60)
 
     try:
         # Iterate through all running processes
@@ -39,16 +43,15 @@ with open(log_file, "a") as file:
                     if set(current_affinity) != set(EXPECTED_AFFINITY[name]):
                         timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                         log_entry = (f"[{timestamp}] CPU Affinity Violation - PID: {pid}, Name: {name}, "
-                                     f"Expected: {EXPECTED_AFFINITY[name]}, Current: {current_affinity}\n")
-                        file.write(log_entry)
-                        print(log_entry.strip())  # Print to the console
+                                     f"Expected: {EXPECTED_AFFINITY[name]}, Current: {current_affinity}")
+                        log_entries.append(log_entry)
 
             except (psutil.NoSuchProcess, psutil.AccessDenied, AttributeError):
                 # Skip processes that are inaccessible or don't support affinity
                 continue
 
-        print(f"CPU affinity violations log saved to {log_file}")
-
     except Exception as e:
-        print(f"An error occurred: {e}")
+        log_entries.append(f"An error occurred: {e}")
+
+    return "\n".join(log_entries)
 

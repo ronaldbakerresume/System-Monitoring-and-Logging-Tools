@@ -1,1 +1,1 @@
-# This file marks the directory as a package for Python testing.
+# This file makes the directory a package for unittest discovery.

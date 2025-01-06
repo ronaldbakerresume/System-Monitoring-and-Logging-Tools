@@ -1,1 +1,1 @@
-# Initialization file for the event_logging module
+# Initialization file for the log_unauthorized_execution module
